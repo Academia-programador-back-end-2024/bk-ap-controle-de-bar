@@ -1,0 +1,72 @@
+﻿@using ControleDeBar.Model
+@{
+    Layout = null;
+}
+
+
+<html>
+<head>
+    <title>Meu Primeiro Website</title>
+</head>
+
+<body>
+
+    <!--Formulario adicionar -->
+    <form method='post' action='/clientes'>
+        <label for='nome'> Nome: </label>
+        <input type='text' id='nome' name='nome' required>
+        <button type='submit'> Adicionar Cliente </button>
+    </form>
+
+
+    <h1>Clientes</h1>
+
+    <table>
+        <thead>
+            <tr>
+
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Editar</th>
+                <th>Deletar</th>
+                <th>Detalhes</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                foreach (Cliente cliente in ViewBag.Clientes)
+                {
+
+                    <tr>
+                        <td>@cliente.Id</td>
+                        <form method='post' action='/clientes/editar'>
+                            <input type='hidden' id='id' name='id' value='@cliente.Id'>
+                        <td>
+                            <input type='text' id='nome' name='nome' value='@cliente.Nome'>
+                        </td>
+                        <td>
+                            <button type='submit'> Editar </button>
+                        </td>
+
+                        </form>
+
+
+                        <form method='post' action='/clientes/deletar'>
+                            <input type='hidden' id='id' name='id' value='@cliente.Id'>
+                        <td>
+                            <button type='submit'> Deletar </button>
+                        </td>
+
+                        </form>
+
+                        <td>
+                            <a href="/clientes/detalhes/@cliente.Id">Detalhes</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</body>
+</html>

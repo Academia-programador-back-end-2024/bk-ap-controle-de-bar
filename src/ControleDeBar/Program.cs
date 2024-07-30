@@ -1,28 +1,36 @@
-public class Program
+using ControleDeBar;
+using ControleDeBar.Model;
+
+public partial class Program
 {
-    public static List<Cliente> Clientes = new List<Cliente>();
+
     public static void Main(string[] args)
     {
-        for (int i = 0; i < 10; i++)
-        {
-            Cliente cliente = new Cliente();
-            cliente.Nome = "Cliente " + i.ToString();
-            cliente.Id = i.ToString();
-            Clientes.Add(cliente);
-        }
+
+
         var builder = WebApplication.CreateBuilder(args);
+
+        // Para permitir usar controlladores e visualizadores
+        builder.Services.AddControllersWithViews();
+
+
         var app = builder.Build();
+
+        app.UseRouting();
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Clientes}/{action=Index}/{id?}");
 
         //Minimal API
 
         //Delegate
         //POnteiro c++
         //Lambda expression 
-
-        app.MapGet("/clientes", TragaClientes);
-        app.MapPost("/clientes", AdicionarCliente);
-        app.MapPost("/clientes/editar", EditarCliente);
-        app.MapPost("/clientes/deletar", DeletarCliente);
+        //app.MapGet("/", TragaClientes);
+        //app.MapGet("/clientes", TragaClientes);
+        //app.MapPost("/clientes", AdicionarCliente);
+        //app.MapPost("/clientes/editar", EditarCliente);
+        //app.MapPost("/clientes/deletar", DeletarCliente);
 
         app.Run();
     }
@@ -30,14 +38,31 @@ public class Program
     private static IResult TragaClientes()
     {
         string clientesTabela = string.Empty;
-        foreach (var cliente in Clientes)
+        foreach (var cliente in ClientesController.Clientes)
         {
             string linhaCLiente = $@"
 <tr>
-    <td> {cliente.Nome}</td>
     <td>{cliente.Id}</td>
-    <td>Editar</td>
-    <td>Deletar</td>    
+<form method='post' action='/clientes/editar'>  
+        <input type='hidden' id='id' name='id'value='{cliente.Id}'>
+    <td>
+        <input type='text' id='nome' name='nome' value='{cliente.Nome}'> 
+    </td>   
+    <td>
+        <button type='submit'> Editar </button>       
+    </td>
+
+ </form>
+    
+    
+<form method='post' action='/clientes/deletar'>  
+        <input type='hidden' id='id' name='id'value='{cliente.Id}'>
+    <td>
+        <button type='submit'> Deletar </button>   
+    </td>   
+
+ </form>
+
 </tr>";
             clientesTabela += linhaCLiente;
         }
@@ -49,6 +74,7 @@ public class Program
 </head>
 <body>
 
+<!--Formulario adicionar -->
 <form method='post' action='/clientes'>
     <label for='nome'> Nome: </label>
     <input type='text' id='nome' name='nome' required>
@@ -61,8 +87,9 @@ public class Program
 <table>
   <thead>
     <tr>
-        <th>Nome</th>
+
         <th>Id</th>
+        <th>Nome</th>
         <th>Editar</th>
         <th>Deletar</th>
     </tr>
@@ -82,19 +109,46 @@ public class Program
     {
         var form = httpContext.Request.Form;
         var nome = form["nome"].ToString();
-        var id = Clientes.Count + 1;
+        var id = ClientesController.Clientes.Count + 1;
         var cliente = new Cliente()
         {
             Nome = nome,
             Id = id.ToString()
         };
-        Clientes.Add(cliente);
+        ClientesController.Clientes.Add(cliente);
         return Results.Redirect("/clientes");
     }
 
-    public class Cliente
+    private static IResult EditarCliente(HttpContext httpContext)
     {
-        public string Id { get; set; }
-        public string Nome { get; set; }
+        var form = httpContext.Request.Form;
+        var nome = form["nome"].ToString();
+        var id = form["id"].ToString();
+
+
+        Cliente? cliente = ClientesController.Clientes.FirstOrDefault(cliente => cliente.Id == id);
+
+        if (cliente != null)
+        {
+            var index = ClientesController.Clientes.LastIndexOf(cliente);
+            cliente.Nome = nome;
+            ClientesController.Clientes[index] = cliente;
+        }
+
+        return Results.Redirect("/clientes");
+    }
+
+    private static IResult DeletarCliente(HttpContext httpContext)
+    {
+        var form = httpContext.Request.Form;
+        var id = form["id"].ToString();
+        Cliente? cliente = ClientesController.Clientes.FirstOrDefault(cliente => cliente.Id == id);
+
+        if (cliente != null)
+        {
+            ClientesController.Clientes.Remove(cliente);
+        }
+
+        return Results.Redirect("/clientes");
     }
 }
