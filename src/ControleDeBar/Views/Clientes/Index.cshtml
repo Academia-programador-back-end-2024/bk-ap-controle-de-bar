@@ -9,49 +9,60 @@
 <html>
 <head>
     <title>Meu Primeiro Website</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+
 </head>
 
 <body>
-    <h1>Clientes</h1>
 
-    <a href="/clientes/adicionar">Adicionar Cliente</a>
+    <div class="bg-dark text-white p-2">
+        <span class="navbar-brand ml-2">Clientes</span>
+    </div>
+    <div class="row m-1 p-1">
+        <div id="categories" class="col-3">
+            Menu
+        </div>
+        <div class="col-9">
+            <a href="/clientes/adicionar">Adicionar Cliente</a>
 
-    <table>
-        <thead>
-            <tr>
-
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Editar</th>
-                <th>Deletar</th>
-                <th>Detalhes</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @{
-                foreach (Cliente cliente in Model)
-                {
-
+            <table>
+                <thead>
                     <tr>
-                        <td>@cliente.Id</td>
-                        <td>
-                            <span>@cliente.Nome</span>
-                        </td>
 
-                        <td>
-                            <a href="/clientes/editar/@cliente.Id">Editar</a>
-                        </td>
-                        <td>
-                            <a href="/clientes/deletar/@cliente.Id">Deletar</a>
-                        </td>
-                        <td>
-                            <a href="/clientes/detalhes/@cliente.Id">Detalhes</a>
-                        </td>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Editar</th>
+                        <th>Deletar</th>
+                        <th>Detalhes</th>
                     </tr>
-                }
-            }
-        </tbody>
-    </table>
+                </thead>
+
+                <tbody>
+                    @{
+                        foreach (Cliente cliente in Model)
+                        {
+
+                            <tr>
+                                <td>@cliente.Id</td>
+                                <td>
+                                    <span>@cliente.Nome</span>
+                                </td>
+
+                                <td>
+                                    <a href="/clientes/editar/@cliente.Id">Editar</a>
+                                </td>
+                                <td>
+                                    <a href="/clientes/deletar/@cliente.Id">Deletar</a>
+                                </td>
+                                <td>
+                                    <a href="/clientes/detalhes/@cliente.Id">Detalhes</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

@@ -7,24 +7,28 @@
 <html>
 <head>
     <title>Meu Primeiro Website</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+
 </head>
 
 <body>
 
-    <h1>Adição de cliente</h1>
+    <legend>Adição de cliente</legend>
 
     <!--Formulario adicionar -->
     <form method='post' action='/clientes/adicionar'>
 
         <input type="hidden" name="Id" id="Id" value="@Model.Id" />
-
-        <label for='nome'> Nome: </label>
-        <input type='text' id='nome' name='nome' required value="@Model.Nome">
+        <div class="mb-3">
+        <label class="form-label" for='nome'> Nome: </label>
+        <input class="form-control" type='text' id='nome' name='nome' required value="@Model.Nome">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
         @if (ViewBag.Error != string.Empty)
         {
             <span> @ViewBag.Error </span>
         }
-        <button type='submit'> Adicionar Cliente </button>
+        <button class="btn btn-primary"  type='submit'> Adicionar Cliente </button>
     </form>
 
 </body>
