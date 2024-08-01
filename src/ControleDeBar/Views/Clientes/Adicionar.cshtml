@@ -1,0 +1,31 @@
+﻿@using ControleDeBar.Model
+@model ControleDeBar.Model.Cliente
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>Meu Primeiro Website</title>
+</head>
+
+<body>
+
+    <h1>Adição de cliente</h1>
+
+    <!--Formulario adicionar -->
+    <form method='post' action='/clientes/adicionar'>
+
+        <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+
+        <label for='nome'> Nome: </label>
+        <input type='text' id='nome' name='nome' required value="@Model.Nome">
+        @if (ViewBag.Error != string.Empty)
+        {
+            <span> @ViewBag.Error </span>
+        }
+        <button type='submit'> Adicionar Cliente </button>
+    </form>
+
+</body>
+</html>

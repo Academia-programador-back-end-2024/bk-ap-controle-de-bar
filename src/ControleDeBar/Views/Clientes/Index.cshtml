@@ -1,6 +1,8 @@
 ﻿@using ControleDeBar.Model
+@model List<Cliente>
 @{
     Layout = null;
+
 }
 
 
@@ -10,16 +12,9 @@
 </head>
 
 <body>
-
-    <!--Formulario adicionar -->
-    <form method='post' action='/clientes'>
-        <label for='nome'> Nome: </label>
-        <input type='text' id='nome' name='nome' required>
-        <button type='submit'> Adicionar Cliente </button>
-    </form>
-
-
     <h1>Clientes</h1>
+
+    <a href="/clientes/adicionar">Adicionar Cliente</a>
 
     <table>
         <thead>
@@ -35,31 +30,21 @@
 
         <tbody>
             @{
-                foreach (Cliente cliente in ViewBag.Clientes)
+                foreach (Cliente cliente in Model)
                 {
 
                     <tr>
                         <td>@cliente.Id</td>
-                        <form method='post' action='/clientes/editar'>
-                            <input type='hidden' id='id' name='id' value='@cliente.Id'>
                         <td>
-                            <input type='text' id='nome' name='nome' value='@cliente.Nome'>
-                        </td>
-                        <td>
-                            <button type='submit'> Editar </button>
+                            <span>@cliente.Nome</span>
                         </td>
 
-                        </form>
-
-
-                        <form method='post' action='/clientes/deletar'>
-                            <input type='hidden' id='id' name='id' value='@cliente.Id'>
                         <td>
-                            <button type='submit'> Deletar </button>
+                            <a href="/clientes/editar/@cliente.Id">Editar</a>
                         </td>
-
-                        </form>
-
+                        <td>
+                            <a href="/clientes/deletar/@cliente.Id">Deletar</a>
+                        </td>
                         <td>
                             <a href="/clientes/detalhes/@cliente.Id">Detalhes</a>
                         </td>
