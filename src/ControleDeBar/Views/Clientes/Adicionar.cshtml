@@ -1,35 +1,43 @@
 ﻿@using ControleDeBar.Model
 @model ControleDeBar.Model.Cliente
 @{
-    Layout = null;
+Layout = null;
 }
 
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <title>Meu Primeiro Website</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Cliente</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
 </head>
-
 <body>
+<div class="container mt-5">
+    <legend class="mb-4">Adição de Cliente</legend>
 
-    <legend>Adição de cliente</legend>
-
-    <!--Formulario adicionar -->
-    <form method='post' action='/clientes/adicionar'>
-
+    <!-- Formulário de Adição -->
+    <form method="post" action="/clientes/adicionar">
         <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+
         <div class="mb-3">
-        <label class="form-label" for='nome'> Nome: </label>
-        <input class="form-control" type='text' id='nome' name='nome' required value="@Model.Nome">
+            <label class="form-label" for="nome">Nome:</label>
+            <input class="form-control" type="text" id="nome" name="nome" required value="@Model.Nome">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
-        @if (ViewBag.Error != string.Empty)
-        {
-            <span> @ViewBag.Error </span>
-        }
-        <button class="btn btn-primary"  type='submit'> Adicionar Cliente </button>
-    </form>
 
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Error
+        </div>
+        }
+
+        <button class="btn btn-primary" type="submit">Adicionar Cliente</button>
+    </form>
+</div>
+
+<!-- Scripts do Bootstrap  -->
+<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
