@@ -11,6 +11,8 @@ public class Cliente
 
     [Required]
     [Display(Description = "Nome cliente")]
+    [MinLength(length: 2)]
+    [MaxLength(length: 99)]
     public string Nome { get; set; }
 
 }
