@@ -10,9 +10,12 @@
 else
 {
     <form method='post' action='/clientes/deletar'>
+        
 
         <input type='hidden' id='id' name='id' value='@Model.Id'>
         <input type='hidden' id='index' name='index' value='@ViewBag.Index'>
+        
+        <label asp-for="Nome"></label>
         <input type='hidden' id='nome' name='nome' value='@Model.Nome'>
         @if (ViewBag.Error != string.Empty)
         {
