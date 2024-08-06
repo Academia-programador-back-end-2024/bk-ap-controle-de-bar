@@ -1,27 +1,23 @@
-﻿@using ControleDeBar.Model
-@model Cliente
-@{
-    Layout = null;
-}
+﻿@model Cliente
 
 
-<html>
+<h1>Editar Cliente</h1>
 
-<body>
+<form method='post' action='/clientes/editar'>
+    <input type='hidden' id='index' name='index' value='@ViewBag.Index'>
 
-    <h1>Editar Cliente</h1>
-
-    <form method='post' action='/clientes/editar'>
-
-        <input type='text' id='id' name='id' value='@Model.Id'>
-        <input type='hidden' id='index' name='index' value='@ViewBag.Index'>
-        <input type='text' id='nome' name='nome' value='@Model.Nome'>
+    <div class="mb-3">
+        <label for="id" class="form-label">Id</label>
+        <input class="form-control" type='text' id='id' name='id' value='@Model.Id'>
+    </div>
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input class="form-control" type='text' id='nome' name='nome' value='@Model.Nome'>
         @if (ViewBag.Error != string.Empty)
         {
             <p> @ViewBag.Error </p>
         }
-        <button type='submit'> Editar </button>
-    </form>
+    </div>
+    <button class="btn btn-primary" type='submit'> Editar </button>
+</form>
 
-</body>
-</html>

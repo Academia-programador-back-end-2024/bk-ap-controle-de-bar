@@ -1,35 +1,25 @@
-﻿@using ControleDeBar.Model
-@model Cliente
-@{
-    Layout = null;
+﻿@model Cliente
+
+
+<h1>Deletar Cliente de nome @Model.Nome</h1>
+@if (ViewBag.DeleteSucesso)
+{
+    <h2>Cliente @Model.Nome deleta com sucesso</h2>
+    <a href="/clientes">Clientes</a>
 }
+else
+{
+    <form method='post' action='/clientes/deletar'>
 
+        <input type='hidden' id='id' name='id' value='@Model.Id'>
+        <input type='hidden' id='index' name='index' value='@ViewBag.Index'>
+        <input type='hidden' id='nome' name='nome' value='@Model.Nome'>
+        @if (ViewBag.Error != string.Empty)
+        {
+            <p> @ViewBag.Error </p>
+        }
+        <button type='submit'> Confirmar delete </button>
+    </form>
 
-<html>
-
-<body>
-
-    <h1>Deletar Cliente de nome @Model.Nome</h1>
-    @if (ViewBag.DeleteSucesso)
-    {
-        <h2>Cliente @Model.Nome deleta com sucesso</h2>
-        <a href="/clientes">Clientes</a>
-    }
-    else
-    {
-        <form method='post' action='/clientes/deletar'>
-
-            <input type='hidden' id='id' name='id' value='@Model.Id'>
-            <input type='hidden' id='index' name='index' value='@ViewBag.Index'>
-            <input type='hidden' id='nome' name='nome' value='@Model.Nome'>
-            @if (ViewBag.Error != string.Empty)
-            {
-                <p> @ViewBag.Error </p>
-            }
-            <button type='submit'> Confirmar delete </button>
-        </form>
-
-        <a href="/clientes">Cancelar</a>
-    }
-</body>
-</html>
+    <a href="/clientes">Cancelar</a>
+}

@@ -1,70 +1,53 @@
-﻿@using ControleDeBar.Model
-@model List<Cliente>
-@{
-    Layout = null;
+﻿@model List<Cliente>
 
-}
-
-
-<html>
-<head>
-    <title>Meu Primeiro Website</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
-
-</head>
-
-<body>
-
-    <div class="bg-dark text-white p-2">
-        <span class="navbar-brand ml-2">Clientes</span>
-    </div>
-    <div class="row m-1 p-1">
-        <div id="categories" class="col-3">
-            <div class="btn-group-vertical">
-                <!-- Action Link styled as a Button -->
-                <a href="@Url.Action("Adicionar", "Clientes")" class="btn btn-primary">Adicionar</a>
-            </div>
+<div class="bg-dark text-white p-2">
+    <span class="navbar-brand ml-2">Clientes</span>
+</div>
+<div class="row m-1 p-1">
+    <div id="categories" class="col-3">
+        <div class="btn-group-vertical">
+            <!-- Action Link styled as a Button -->
+            <a href="@Url.Action("Adicionar", "Clientes")" class="btn btn-primary">Adicionar</a>
         </div>
-        <div class="col-9">
+    </div>
+    <div class="col-9">
 
-            <table>
-                <thead>
-                    <tr>
+        <table>
+            <thead>
+                <tr>
 
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Editar</th>
-                        <th>Deletar</th>
-                        <th>Detalhes</th>
-                    </tr>
-                </thead>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Editar</th>
+                    <th>Deletar</th>
+                    <th>Detalhes</th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    @{
-                        foreach (Cliente cliente in Model)
-                        {
+            <tbody>
+                @{
+                    foreach (Cliente cliente in Model)
+                    {
 
-                            <tr>
-                                <td>@cliente.Id</td>
-                                <td>
-                                    <span>@cliente.Nome</span>
-                                </td>
+                        <tr>
+                            <td>@cliente.Id</td>
+                            <td>
+                                <span>@cliente.Nome</span>
+                            </td>
 
-                                <td>
-                                    <a href="/clientes/editar/@cliente.Id" class="btn btn-secondary">Editar</a>
-                                </td>
-                                <td>
-                                    <a href="/clientes/deletar/@cliente.Id" class="btn btn-secondary">Deletar</a>
-                                </td>
-                                <td>
-                                    <a href="/clientes/detalhes/@cliente.Id" class="btn btn-secondary">Detalhes</a>
-                                </td>
-                            </tr>
-                        }
+                            <td>
+                                <a href="/clientes/editar/@cliente.Id" class="btn btn-secondary">Editar</a>
+                            </td>
+                            <td>
+                                <a href="/clientes/deletar/@cliente.Id" class="btn btn-secondary">Deletar</a>
+                            </td>
+                            <td>
+                                <a href="/clientes/detalhes/@cliente.Id" class="btn btn-secondary">Detalhes</a>
+                            </td>
+                        </tr>
                     }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
-</body>
-</html>
+</div>

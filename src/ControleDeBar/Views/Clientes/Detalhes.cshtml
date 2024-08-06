@@ -1,56 +1,44 @@
-﻿@using ControleDeBar.Model
-@{
-    Layout = null;
-}
+﻿<h1>Detalhes Cliente</h1>
 
+<table>
+    <thead>
+        <tr>
 
-<html>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Editar</th>
+            <th>Deletar</th>
+        </tr>
+    </thead>
 
-<body>
-
-    <h1>Detalhes Cliente</h1>
-
-    <table>
-        <thead>
+    <tbody>
+        @{
+            Cliente cliente = ViewBag.Cliente;
             <tr>
+                <td>@cliente.Id</td>
+                <form method='post' action='/clientes/editar'>
+                    <input type='hidden' id='id' name='id' value='@cliente.Id'>
+                <td>
+                    <input type='text' id='nome' name='nome' value='@cliente.Nome'>
+                </td>
+                <td>
+                    <button type='submit'> Editar </button>
+                </td>
 
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Editar</th>
-                <th>Deletar</th>
+                </form>
+
+
+                <form method='post' action='/clientes/deletar'>
+                    <input type='hidden' id='id' name='id' value='@cliente.Id'>
+                <td>
+                    <button type='submit'> Deletar </button>
+                </td>
+
+                </form>
+
+
             </tr>
-        </thead>
+        }
 
-        <tbody>
-            @{
-                Cliente cliente = ViewBag.Cliente;
-                <tr>
-                        <td>@cliente.Id</td>
-                        <form method='post' action='/clientes/editar'>
-                            <input type='hidden' id='id' name='id' value='@cliente.Id'>
-                        <td>
-                            <input type='text' id='nome' name='nome' value='@cliente.Nome'>
-                        </td>
-                        <td>
-                            <button type='submit'> Editar </button>
-                        </td>
-
-                        </form>
-
-
-                        <form method='post' action='/clientes/deletar'>
-                            <input type='hidden' id='id' name='id' value='@cliente.Id'>
-                        <td>
-                            <button type='submit'> Deletar </button>
-                        </td>
-
-                        </form>
-
-                        
-                    </tr>
-                }
-            
-        </tbody>
-    </table>
-</body>
-</html>
+    </tbody>
+</table>

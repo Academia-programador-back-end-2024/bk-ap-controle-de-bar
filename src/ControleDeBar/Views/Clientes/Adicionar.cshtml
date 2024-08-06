@@ -1,18 +1,5 @@
-﻿@using ControleDeBar.Model
-@model ControleDeBar.Model.Cliente
-@{
-Layout = null;
-}
+﻿@model ControleDeBar.Model.Cliente
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Cliente</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-</head>
-<body>
 <div class="container mt-5">
     <legend class="mb-4">Adição de Cliente</legend>
 
@@ -28,16 +15,12 @@ Layout = null;
 
         @if (!string.IsNullOrEmpty(ViewBag.Error))
         {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.Error
-        </div>
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Error
+            </div>
         }
 
         <button class="btn btn-primary" type="submit">Adicionar Cliente</button>
     </form>
 </div>
 
-<!-- Scripts do Bootstrap  -->
-<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
