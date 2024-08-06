@@ -11,8 +11,8 @@ public class Cliente
 
     [Required]
     [Display(Description = "Nome cliente")]
-    [MinLength(length: 2)]
-    [MaxLength(length: 99)]
+    [MinLength(length: 2, ErrorMessage = "Minimo de dois caracteres")]
+    [MaxLength(length: 99, ErrorMessage = "Maximo de noventa e nove caracteres")]
     public string Nome { get; set; }
 
 }

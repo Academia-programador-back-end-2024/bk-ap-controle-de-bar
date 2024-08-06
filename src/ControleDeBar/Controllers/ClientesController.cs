@@ -78,6 +78,11 @@ namespace ControleDeBar
         [HttpPost]
         public IActionResult Editar(Cliente cliente, int index)
         {
+            if (ModelState.IsValid == false)
+            {
+                return View(cliente);
+            }
+
             bool existeCliente = false;
 
             existeCliente = Clientes.Exists(clienteLista => clienteLista.Nome.Equals(cliente.Nome));

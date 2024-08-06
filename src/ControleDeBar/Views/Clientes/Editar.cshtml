@@ -3,7 +3,7 @@
 
 <h1>Editar Cliente</h1>
 
-<form method='post' asp-action="Adicionar" asp-controller="Clientes">
+<form method='post' asp-action="Editar" asp-controller="Clientes">
     <input type='hidden' id='index' name='index' value='@ViewBag.Index'>
 
     <div class="mb-3">
@@ -13,6 +13,7 @@
     <div class="mb-3">
         @Html.LabelFor(m => m.Nome, new { @class = "form-label" })
         @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Nome)
       
         @if (ViewBag.Error != string.Empty)
         {
