@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ControleDeBar.Model;
-public class Cliente
+public class Cliente : BaseModel
 {
-    public Cliente()
+    public Cliente() : base()
     {
-        Id = Guid.NewGuid().ToString();
     }
-    public string Id { get; set; }
 
     [Required]
     [Display(Description = "Nome cliente")]

@@ -14,6 +14,7 @@ namespace ControleDeBar.Data
         {
             optionsBuilder.UseInMemoryDatabase("ControleBar");
         }
+        public DbSet<ControleDeBar.Model.Produto> Produto { get; set; } = default!;
 
     }
 }

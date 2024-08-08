@@ -2,13 +2,9 @@
 
 namespace ControleDeBar.Model;
 
-public class Garcom
+public class Garcom : BaseModel
 {
-    public Garcom()
-    {
-        Id = Guid.NewGuid().ToString();
-    }
-    public string Id { get; set; }
+    public Garcom() : base() { }
 
     [Required]
     [MinLength(length: 2, ErrorMessage = "Minimo de dois caracteres")]
