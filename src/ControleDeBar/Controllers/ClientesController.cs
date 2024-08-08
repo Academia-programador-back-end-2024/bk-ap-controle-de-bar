@@ -1,40 +1,43 @@
-﻿using ControleDeBar.Model;
+﻿using ControleDeBar.Data;
+using ControleDeBar.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControleDeBar
 {
     public class ClientesController : Controller
     {
-        public static List<Cliente> Clientes;
-
-        private static void SemearCLientes()
+        private readonly ControleDeBarContext _context;
+        private void SemearCLientes()
         {
-            if (Clientes == null)
+            if (_context.Clientes.Any() is false)
             {
-                Clientes = new List<Cliente>();
                 for (int i = 0; i < 10; i++)
                 {
                     Cliente cliente = new Cliente();
                     cliente.Nome = "Cliente " + i.ToString();
                     cliente.Id = i.ToString();
-                    Clientes.Add(cliente);
+                    _context.Clientes.Add(cliente);
                 }
+
+                _context.SaveChanges();
             }
         }
 
-        public ClientesController()
+        public ClientesController(ControleDeBarContext context)
         {
+            _context = context;
             SemearCLientes();
         }
 
         public IActionResult Index()
         {
-            return View(Clientes);
+            return View(_context.Clientes.ToList());
         }
 
         public IActionResult Detalhes(int id = 0)
         {
-            Cliente cliente = Clientes.FirstOrDefault(cliente => cliente.Id == id.ToString());
+            Cliente cliente = _context.Clientes.FirstOrDefault(cliente => cliente.Id == id.ToString());
             ViewBag.Cliente = cliente;
             return View();
         }
@@ -51,7 +54,7 @@ namespace ControleDeBar
         {
             bool existeCliente = false;
 
-            existeCliente = Clientes.Exists(clienteLista => clienteLista.Nome.Equals(cliente.Nome));
+            existeCliente = _context.Clientes.Any(clienteLista => clienteLista.Nome.Equals(cliente.Nome));
 
             if (existeCliente)
             {
@@ -60,23 +63,24 @@ namespace ControleDeBar
             else
             {
                 ViewBag.Error = string.Empty;
-                Clientes.Add(cliente);
+                _context.Clientes.Add(cliente);
+                _context.SaveChanges();
             }
 
             return View(cliente);
         }
 
 
-        public IActionResult Editar(int id = 0)
+        public IActionResult Editar(string id)
         {
-            Cliente cliente = Clientes.FirstOrDefault(cliente => cliente.Id == id.ToString());
-            ViewBag.Index = Clientes.LastIndexOf(cliente);
+            Cliente cliente = _context.Clientes.FirstOrDefault(cliente => cliente.Id == id.ToString());
+            ViewBag.Index = cliente.Id;
             ViewBag.Error = string.Empty;
             return View(cliente);
         }
 
         [HttpPost]
-        public IActionResult Editar(Cliente cliente, int index)
+        public IActionResult Editar(Cliente cliente, string index)
         {
             if (ModelState.IsValid == false)
             {
@@ -85,7 +89,7 @@ namespace ControleDeBar
 
             bool existeCliente = false;
 
-            existeCliente = Clientes.Exists(clienteLista => clienteLista.Nome.Equals(cliente.Nome));
+            existeCliente = _context.Clientes.Any(clienteLista => clienteLista.Nome.Equals(cliente.Nome));
             ViewBag.Index = index;
             if (existeCliente)
             {
@@ -93,33 +97,46 @@ namespace ControleDeBar
             }
             else
             {
-                Clientes[index] = cliente;
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(cliente);
+                        _context.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        throw;
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(cliente);
         }
 
 
-        public IActionResult Deletar(int id = 0)
+        public IActionResult Deletar(string id)
         {
-            Cliente cliente = Clientes.FirstOrDefault(cliente => cliente.Id == id.ToString());
-            ViewBag.Index = Clientes.LastIndexOf(cliente);
+            Cliente cliente = _context.Clientes.FirstOrDefault(cliente => cliente.Id == id);
+            ViewBag.Index = cliente.Id;
             ViewBag.Error = string.Empty;
             ViewBag.DeleteSucesso = false;
             return View(cliente);
         }
 
         [HttpPost]
-        public IActionResult Deletar(Cliente cliente, int index)
+        public IActionResult Deletar(Cliente cliente, string index)
         {
             ViewBag.Index = index;
             ViewBag.DeleteSucesso = false;
             try
             {
-                Cliente confirmarCliente = Clientes[index];
-                if (confirmarCliente.Id == cliente.Id)
+                Cliente confirmarCliente =
+                    _context.Clientes.FirstOrDefault(cliente => cliente.Id.Equals(index));
+                if (confirmarCliente != null)
                 {
-
-                    Clientes.RemoveAt(index);
+                    _context.Remove(confirmarCliente);
+                    _context.SaveChanges();
                     ViewBag.DeleteSucesso = true;
                 }
                 else

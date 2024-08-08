@@ -2,9 +2,9 @@
 
 namespace ControleDeBar.Model;
 
-public class Garcon
+public class Garcom
 {
-    public Garcon()
+    public Garcom()
     {
         Id = Guid.NewGuid().ToString();
     }

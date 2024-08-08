@@ -1,9 +1,7 @@
-﻿
-<html>
+﻿<html>
 <head>
-    <title>Meu Primeiro Website</title>
+    <title>Controle de bar</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
-
 </head>
 
 <body>
@@ -22,8 +20,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Garcons" asp-action="Index">Garçons</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Garcoms" asp-action="Index">Garçons</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Mesas" asp-action="Index">Mesas</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -36,19 +38,17 @@
         </main>
     </div>
 
-    
+
     <footer class="border-top footer text-muted">
         <div class="container">
             2024 - Controle De Bar- <a asp-controller="Clientes" asp-action="Index">Clientes</a>
         </div>
     </footer>
-    
 
-    @RenderSection("Scripts",required:false)
-<!-- Scripts do Bootstrap  -->
+
+    @RenderSection("Scripts", required: false)
+
+    <!-- Scripts do Bootstrap  -->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 </body>
-
-
 </html>

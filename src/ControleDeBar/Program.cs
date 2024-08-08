@@ -10,6 +10,7 @@ public partial class Program
         // Para permitir usar controlladores e visualizadores
         builder.Services.AddControllersWithViews();
 
+        //Injeção de serviços para quem precisa da entidade de contexto de dados
         builder.Services.AddDbContext<ControleDeBarContext>();
 
         var app = builder.Build();

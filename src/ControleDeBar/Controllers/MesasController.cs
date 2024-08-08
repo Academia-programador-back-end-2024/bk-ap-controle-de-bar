@@ -1,31 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ControleDeBar.Data;
+﻿using ControleDeBar.Data;
 using ControleDeBar.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControleDeBar.Controllers
 {
-    public class GarconsController : Controller
+    public class MesasController : Controller
     {
         private readonly ControleDeBarContext _context;
 
-        public GarconsController(ControleDeBarContext context)
+        private void SemearMesas()
+        {
+            if (_context.Mesa.Any() is false)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Mesa mesa = new Mesa();
+                    mesa.Numero = i + 1;
+                    mesa.Id = i.ToString();
+                    _context.Mesa.Add(mesa);
+                }
+
+                _context.SaveChanges();
+            }
+        }
+
+        public MesasController(ControleDeBarContext context)
         {
             _context = context;
+            SemearMesas();
         }
 
-        // GET: Garcons
+        // GET: Mesas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Garcon.ToListAsync());
+            return View(await _context.Mesa.ToListAsync());
         }
 
-        // GET: Garcons/Details/5
+        // GET: Mesas/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,39 +45,39 @@ namespace ControleDeBar.Controllers
                 return NotFound();
             }
 
-            var garcon = await _context.Garcon
+            var mesa = await _context.Mesa
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (garcon == null)
+            if (mesa == null)
             {
                 return NotFound();
             }
 
-            return View(garcon);
+            return View(mesa);
         }
 
-        // GET: Garcons/Create
+        // GET: Mesas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Garcons/Create
+        // POST: Mesas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome")] Garcon garcon)
+        public async Task<IActionResult> Create([Bind("Id,Numero")] Mesa mesa)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(garcon);
+                _context.Add(mesa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(garcon);
+            return View(mesa);
         }
 
-        // GET: Garcons/Edit/5
+        // GET: Mesas/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -73,22 +85,22 @@ namespace ControleDeBar.Controllers
                 return NotFound();
             }
 
-            var garcon = await _context.Garcon.FindAsync(id);
-            if (garcon == null)
+            var mesa = await _context.Mesa.FindAsync(id);
+            if (mesa == null)
             {
                 return NotFound();
             }
-            return View(garcon);
+            return View(mesa);
         }
 
-        // POST: Garcons/Edit/5
+        // POST: Mesas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Nome")] Garcon garcon)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Numero")] Mesa mesa)
         {
-            if (id != garcon.Id)
+            if (id != mesa.Id)
             {
                 return NotFound();
             }
@@ -97,12 +109,12 @@ namespace ControleDeBar.Controllers
             {
                 try
                 {
-                    _context.Update(garcon);
+                    _context.Update(mesa);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GarconExists(garcon.Id))
+                    if (!MesaExists(mesa.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +125,10 @@ namespace ControleDeBar.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(garcon);
+            return View(mesa);
         }
 
-        // GET: Garcons/Delete/5
+        // GET: Mesas/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -124,34 +136,34 @@ namespace ControleDeBar.Controllers
                 return NotFound();
             }
 
-            var garcon = await _context.Garcon
+            var mesa = await _context.Mesa
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (garcon == null)
+            if (mesa == null)
             {
                 return NotFound();
             }
 
-            return View(garcon);
+            return View(mesa);
         }
 
-        // POST: Garcons/Delete/5
+        // POST: Mesas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var garcon = await _context.Garcon.FindAsync(id);
-            if (garcon != null)
+            var mesa = await _context.Mesa.FindAsync(id);
+            if (mesa != null)
             {
-                _context.Garcon.Remove(garcon);
+                _context.Mesa.Remove(mesa);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GarconExists(string id)
+        private bool MesaExists(string id)
         {
-            return _context.Garcon.Any(e => e.Id == id);
+            return _context.Mesa.Any(e => e.Id == id);
         }
     }
 }
