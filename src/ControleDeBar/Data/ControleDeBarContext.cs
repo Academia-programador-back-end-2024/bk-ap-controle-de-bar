@@ -7,13 +7,13 @@ namespace ControleDeBar.Data
     {
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Garcom> Garcom { get; set; } = default!;
+        public DbSet<Mesa> Mesa { get; set; } = default!;
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase("ControleBar");
         }
-        public DbSet<ControleDeBar.Model.Mesa> Mesa { get; set; } = default!;
 
     }
 }
