@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ControleDeBar.Model.Consumo>
+
+
+@* <h4>Adicionar Consumo</h4>
+<form method="post" action="@Url.Action("AdicionarConsumo")">
+    <input type="hidden" name="comandaId" value="@Model.Id" />
+    <div class="form-group">
+        <label for="produtoId">Produto</label>
+        <select name="produtoId" class="form-control">
+            @foreach (var produto in ViewBag.Produtos as List<Produto>)
+            {
+                <option value="@produto.Id">@produto.Nome</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="quantidade">Quantidade</label>
+        <input type="number" name="quantidade" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+</form> *@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                Preço
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Produto.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                    @{
+                        double preco = item.Produto.PrecoDeVenda * item.Quantidade;
+                    }
+                    @preco
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

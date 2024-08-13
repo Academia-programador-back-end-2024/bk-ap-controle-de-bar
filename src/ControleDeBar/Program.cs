@@ -13,6 +13,10 @@ public partial class Program
         //Injeção de serviços para quem precisa da entidade de contexto de dados
         builder.Services.AddDbContext<ControleDeBarContext>();
 
+        ControleDeBarContext contexto = new ControleDeBarContext();
+
+        contexto.Semear();
+
         var app = builder.Build();
 
         app.UseStaticFiles();

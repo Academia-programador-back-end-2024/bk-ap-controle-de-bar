@@ -98,32 +98,45 @@ namespace ControleDeBar.Data
         {
             if (Comandas.Any() is false)
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    Comanda comanda = new Comanda();
-                    comanda.DataDeAbertura = DateTime.Now;
+                Comanda comanda = new Comanda();
+                comanda.DataDeAbertura = DateTime.Now;
 
 
-                    Cliente cliente = Clientes.FirstOrDefault();
+                Cliente cliente = Clientes.FirstOrDefault();
 
-                    comanda.Cliente = cliente;
-                    comanda.ClienteId = cliente.Id;
+                comanda.Cliente = cliente;
+                comanda.ClienteId = cliente.Id;
 
-                    Mesa mesa = Mesa.FirstOrDefault();
+                Mesa mesa = Mesa.FirstOrDefault();
 
-                    comanda.Mesa = mesa;
-                    comanda.MesaId = mesa.Id;
+                comanda.Mesa = mesa;
+                comanda.MesaId = mesa.Id;
 
-                    Garcom garcom = Garcom.FirstOrDefault();
+                Garcom garcom = Garcom.FirstOrDefault();
 
-                    comanda.Garcom = garcom;
-                    comanda.GarcomId = garcom.Id;
+                comanda.Garcom = garcom;
+                comanda.GarcomId = garcom.Id;
 
-                    Comandas.Add(comanda);
-                }
+                Comandas.Add(comanda);
+
 
                 SaveChanges();
+
+                Consumo consumo = new Consumo();
+
+                consumo.Produto = Produto.FirstOrDefault();
+                consumo.ProdutoId = consumo.Produto.Id;
+
+                consumo.Comanda = comanda;
+                consumo.ComandaId = comanda.Id;
+
+                consumo.Quantidade = 1;
+                Consumos.Add(consumo);
+                SaveChanges();
+
+
             }
         }
+
     }
 }

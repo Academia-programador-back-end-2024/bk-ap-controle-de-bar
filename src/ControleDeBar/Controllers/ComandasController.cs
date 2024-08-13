@@ -176,5 +176,16 @@ namespace ControleDeBar.Controllers
         {
             return _context.Comandas.Any(e => e.Id == id);
         }
+
+
+        [HttpPost]
+        public IActionResult CriarConsumo(Consumo consumo, string comandaId)
+        {
+            //Lógica criar o consumo
+
+
+
+            return RedirectToAction("Details", comandaId);
+        }
     }
 }
