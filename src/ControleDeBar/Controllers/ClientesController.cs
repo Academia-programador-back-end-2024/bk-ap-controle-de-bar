@@ -8,26 +8,10 @@ namespace ControleDeBar
     public class ClientesController : Controller
     {
         private readonly ControleDeBarContext _context;
-        private void SemearCLientes()
-        {
-            if (_context.Clientes.Any() is false)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    Cliente cliente = new Cliente();
-                    cliente.Nome = "Cliente " + i.ToString();
-                    cliente.Id = i.ToString();
-                    _context.Clientes.Add(cliente);
-                }
-
-                _context.SaveChanges();
-            }
-        }
 
         public ClientesController(ControleDeBarContext context)
         {
             _context = context;
-            SemearCLientes();
         }
 
         public IActionResult Index()

@@ -8,27 +8,9 @@ namespace ControleDeBar.Controllers
     public class MesasController : Controller
     {
         private readonly ControleDeBarContext _context;
-
-        private void SemearMesas()
-        {
-            if (_context.Mesa.Any() is false)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    Mesa mesa = new Mesa();
-                    mesa.Numero = i + 1;
-                    mesa.Id = i.ToString();
-                    _context.Mesa.Add(mesa);
-                }
-
-                _context.SaveChanges();
-            }
-        }
-
         public MesasController(ControleDeBarContext context)
         {
             _context = context;
-            SemearMesas();
         }
 
         // GET: Mesas

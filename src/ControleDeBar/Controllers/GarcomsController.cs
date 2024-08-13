@@ -9,26 +9,10 @@ namespace ControleDeBar.Controllers
     {
         private readonly ControleDeBarContext _context;
 
-        private void SemearGarcom()
-        {
-            if (_context.Garcom.Any() is false)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    Garcom Garcom = new Garcom();
-                    Garcom.Nome = $"Garçom {i}";
-                    Garcom.Id = i.ToString();
-                    _context.Garcom.Add(Garcom);
-                }
-
-                _context.SaveChanges();
-            }
-        }
 
         public GarcomsController(ControleDeBarContext context)
         {
             _context = context;
-            SemearGarcom();
         }
 
         // GET: Garcons

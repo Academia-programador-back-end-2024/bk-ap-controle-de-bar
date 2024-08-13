@@ -8,30 +8,9 @@ namespace ControleDeBar.Controllers
     public class ProdutosController : Controller
     {
         private readonly ControleDeBarContext _context;
-
-        private void SemearProduto()
-        {
-            if (_context.Produto.Any() is false)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    Produto produto = new Produto();
-                    produto.Nome = $"Produto {i}";
-                    produto.Descricao = "Produto de exemplo";
-                    produto.PrecoDeCompra = 1 + i;
-                    produto.PrecoDeVenda = 2 + i;
-                    produto.Id = i.ToString();
-                    _context.Produto.Add(produto);
-                }
-
-                _context.SaveChanges();
-            }
-        }
-
         public ProdutosController(ControleDeBarContext context)
         {
             _context = context;
-            SemearProduto();
         }
 
         // GET: Produtos
