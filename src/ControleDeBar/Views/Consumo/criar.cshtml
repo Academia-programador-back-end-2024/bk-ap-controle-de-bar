@@ -1,39 +1,46 @@
 ﻿@model ControleDeBar.Model.Consumo
 
+<!-- Button to trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Adicionar Consumo
+</button>
 
-<!-- Button trigger modal -->
-
-
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-controller="Comandas" asp-action="CriarConsumo">
-                <input type="hidden" asp-for="ComandaId" />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Quantidade" class="control-label"></label>
-                    <input asp-for="Quantidade" class="form-control" />
-                    <span asp-validation-for="Quantidade" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ProdutoId" class="control-label"></label>
-                    <select asp-for="ProdutoId" class="form-control" asp-items="ViewBag.ProdutoId"></select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Id" class="control-label"></label>
-                    <input asp-for="Id" class="form-control" />
-                    <span asp-validation-for="Id" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-
-
-            </form>
-            <div class="form-group">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Adicionar Consumo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                <form asp-controller="Comandas" asp-action="CriarConsumo" method="post">
+                    <input type="hidden" asp-for="ComandaId" />
+                    <div class="form-group">
+                        <label asp-for="Quantidade" class="control-label"></label>
+                        <input asp-for="Quantidade" class="form-control" />
+                        <span asp-validation-for="Quantidade" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="ProdutoId" class="control-label">Escolha o produto </label>
+                        <select name="ProdutoId" class="form-control">
+                            @foreach (Produto produto in ViewBag.Produtos)
+                            {
+                                <option value="@produto.Id">@produto.Nome</option>
+                            }
+                        </select>
+                        <span asp-validation-for="ProdutoId" class="text-danger"></span>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <input type="submit" value="Salvar" class="btn btn-primary" />
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </form>
+            </div>
+            
         </div>
-
-
     </div>
+</div>
+
+

@@ -4,6 +4,7 @@ public class Consumo : BaseModel
 {
     public Consumo() : base()
     {
+        Quantidade = 1;
     }
     public int Quantidade { get; set; }
 

@@ -47,6 +47,8 @@ namespace ControleDeBar.Controllers
                 return NotFound();
             }
 
+            ViewBag.Produtos = _context.Produto.ToList();
+
             return View(comanda);
         }
 
@@ -179,13 +181,14 @@ namespace ControleDeBar.Controllers
 
 
         [HttpPost]
-        public IActionResult CriarConsumo(Consumo consumo, string comandaId)
+        public IActionResult CriarConsumo(Consumo consumo)
         {
             //Lógica criar o consumo
 
+            _context.Consumos.Add(consumo);
+            _context.SaveChanges();
 
-
-            return RedirectToAction("Details", comandaId);
+            return RedirectToAction("Details", new { id = consumo.ComandaId });
         }
     }
 }
