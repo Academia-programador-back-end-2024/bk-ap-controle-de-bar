@@ -15,16 +15,25 @@ namespace ControleDeBar.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("ControleBar");
+            //optionsBuilder.UseInMemoryDatabase("ControleBar");
+
+            //COnnectionString => 
+            optionsBuilder.UseSqlServer(
+                "Server=localhost,1433;Database=CONTROLE_DE_BAR;User Id=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True;");
+
+            optionsBuilder.LogTo(Console.WriteLine);
         }
 
         public void Semear()
         {
-            SemearGarcom();
-            SemearCLientes();
-            SemearMesas();
-            SemearProduto();
-            SemearComanda();
+            if (this.Database.EnsureCreated())//DDL
+            {
+                SemearGarcom();
+                SemearCLientes();
+                SemearMesas();
+                SemearProduto();
+                SemearComanda();
+            }
         }
 
         private void SemearCLientes()
