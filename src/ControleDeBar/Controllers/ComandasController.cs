@@ -16,15 +16,39 @@ namespace ControleDeBar.Controllers
         }
 
         // GET: Comandas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ComandaFiltro filtro = null)
         {
-            var controleDeBarContext =
+
+            if (filtro == null)
+            {
+                filtro = new ComandaFiltro();
+            }
+
+            ViewBag.Filtro = filtro;
+
+
+            var queryComandas =
                 _context.Comandas
                     .Include(c => c.Cliente)
                     .Include(c => c.Garcom)
-                    .Include(c => c.Mesa);
+                    .Include(c => c.Mesa)
+                    .Include(comanda => comanda.Consumos)
+                    .ThenInclude(consumo => consumo.Produto)
+                    .AsQueryable();
 
-            return View(await controleDeBarContext.ToListAsync());
+            if (filtro.TermoBusca != string.Empty)
+            {
+                queryComandas =
+                    queryComandas.Where(comanda =>
+                        comanda.Cliente.Nome.Contains(filtro.TermoBusca) ||
+                        comanda.Garcom.Nome.Contains(filtro.TermoBusca) ||
+                        comanda.Mesa.Numero.ToString() == filtro.TermoBusca
+                        );
+            }
+
+
+
+            return View(await queryComandas.ToListAsync());
         }
 
         // GET: Comandas/Details/5

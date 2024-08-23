@@ -2,13 +2,52 @@
 
 @{
     ViewData["Title"] = "Index";
+    ComandaFiltro filtro = ViewBag.Filtro;
 }
 
-<h1>Index</h1>
+<h1>Comandas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Adicionar nova comanda</a>
 </p>
+<form method="get">
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="TermoBusca">Busca</label>
+                <input type="text" name="filtro.TermoBusca" value="@filtro.TermoBusca"/>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="DataInicio">Data de inicio</label>
+                <input type="datetime-local" name="filtro.DataInicio" value="@filtro.DataInicio?.ToString("yyyy-MM-ddTHH:MM")" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="DataFim">Data de Fim</label>
+                <input type="datetime-local" name="filtro.DataFim" value="@filtro.DataFim?.ToString("yyyy-MM-ddTHH:MM")" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Pago">Pago</label>
+                <input type="checkbox" name="filtro.Pago" value="@filtro.Pago?" />
+            </div>
+        </div>
+    <div class="col-md-3">
+
+        <button class="btn btn-secondary"type="submit">Filtrar</button>
+    </div>
+    </div>
+
+</form>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -30,43 +69,57 @@
             <th>
                 @Html.DisplayNameFor(model => model.Pago)
             </th>
+            <th>
+                Total Custo
+            </th>
+            <th>
+                Total Venda
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mesa.Numero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Garcom.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataDeAbertura)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataDeEncerramento)
-            </td>
-            <td>
-                @{
-                    var pago = "Não";
-                    if (item.Pago.Equals(true))
-                    {
-                        pago = "Sim";
+        @foreach (Comanda item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mesa.Numero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Garcom.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataDeAbertura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataDeEncerramento)
+                </td>
+                <td>
+                    @{
+                        var pago = "Não";
+                        if (item.Pago.Equals(true))
+                        {
+                            pago = "Sim";
+                        }
                     }
-                }
-                <label>@pago</label>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
-            </td>
-        </tr>
-}
+                    <label>@pago</label>
+                </td>
+                <td>
+                    @item.TotalCusto()
+                </td>
+                <td>
+                    @item.TotalVenda()
+                </td>
+
+                <td>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                    <a class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
