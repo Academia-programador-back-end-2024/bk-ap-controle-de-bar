@@ -1,0 +1,13 @@
+﻿@model ControleDeBar.Model.FaturamentoViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card-body">
+    <h4>Resumo</h4>
+    <p>Total faturado: <strong>@Model.TotalFaturado </strong></p>
+    <p>Total pendente: <strong>@Model.TotalPendente </strong></p>
+    <p>Custo Total: <strong>@Model.CustoTotal </strong></p>
+    <p>Lucro Total: <strong>@Model.LucroTotal </strong></p>
+</div>
