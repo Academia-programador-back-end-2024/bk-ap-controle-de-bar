@@ -1,98 +1,73 @@
+using BarControl.Model;
 namespace BarControl
+
 {
     public class Program
     {
-        public static List<Client> clients = new List<Client>();
 
         public static void Main(string[] args)
         {
-
-            for (int i = 0; i < 10; i++)
-            {
-                Client client = new Client
-                {
-                    Name = "Cliente" + i.ToString() // ?
-                };
-                clients.Add(client);
-            }
-
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddControllersWithViews(); // Allows Controllers and Views to be used
+
             var app = builder.Build();
 
-            // Minimal api
-            // Delegate
-            // Pointer c++
-            // Lambda expression
-            app.MapGet("/clientes", GetClients);
+            app.UseRouting(); // Middleware, infers the route based on the created controller 
+            
+            // GetAll
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Clients}/{action=Index}/{id?}");
+            //
+            
+                
 
             app.Run();
         }
 
-        private static IResult GetClients()
+        private static IResult AddClient(HttpContext httpContext)
         {
-            string html = @"
-        <!DOCTYPE html>
-        <html lang='en'>
-        <head>
-            <meta charset='UTF-8'>
-            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-            <title>Clients List</title>
-            <style>
-                table {
-                    width: 50%;
-                    border-collapse: collapse;
-                    margin: 20px 0;
-                }
-                th, td {
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                    text-align: left;
-                }
-                th {
-                    background-color: #f2f2f2;
-                }
-                tr:nth-child(even) {
-                    background-color: #f9f9f9;
-                }
-            </style>
-        </head>
-        <body>
-            <h2>Clients List</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>";
-
-            foreach (Client client in clients)
-            {
-                html += $@"
-                    <tr>
-                        <td>{client.Id}</td>
-                        <td>{client.Name}</td>
-                    </tr>";
-            }
-
-            html += @"
-                </tbody>
-            </table>
-        </body>
-        </html>";
-
-            return Results.Text(html, "text/html");
+            var form = httpContext.Request.Form;
+            var name = form["name"].ToString();
+            var id = ClientsController.Clients.Count + 1;
+            var client = new Client();
+            client.Name = name;
+            client.Id = id;
+            ClientsController.Clients.Add(client);
+            return Results.Redirect("/clients");
         }
 
-        public class Client
+        private static IResult EditClient(HttpContext httpContext)
         {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-            public Client()
+            var form = httpContext.Request.Form;
+            var name = form["name"].ToString();
+            var id = form["id"];
+
+            Client? client = ClientsController.Clients.FirstOrDefault(c => c.Id == id);
+            if (client != null)
             {
-                Id = Guid.NewGuid();
+                client.Name = name;
             }
+
+            return Results.Redirect("/clients");
         }
+
+        private static IResult DeleteClient(HttpContext httpContext)
+        {
+            var form = httpContext.Request.Form;
+            var id = form["id"];
+            Client? client = ClientsController.Clients.FirstOrDefault(c => c.Id == id);
+            if (client != null)
+            {
+                ClientsController.Clients.Remove(client);
+            }
+
+            return Results.Redirect("/clients");
+        }
+
+
+
+
     }
 }

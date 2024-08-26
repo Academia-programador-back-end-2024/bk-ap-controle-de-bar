@@ -1,0 +1,83 @@
+@using BarControl.Model
+@{
+    Layout = null;
+}
+
+    <!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Clients List</title>
+                <style>
+                    .container {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                    }
+                    form {
+                        margin-right: 20px;
+                        border: 1px solid #ddd;
+                        padding: 10px;
+                        border-radius: 5px;
+                        background-color: #f9f9f9;
+                    }
+                    table {<html lang='en'>
+                    th, td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                    tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+                    }
+                </style>
+            </head>
+            <body>
+                <h2>Clients Management</h2>
+                <div class='container'>
+                    <form method='post' action='/clients'>
+                        <label for='name'>Name: </label>
+                        <input type='text' id='' name='name' value='' required/>
+                        <button type='submit'>Add Client</button>
+                    </form>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>";
+
+            @foreach (var client in ViewBag.clients)
+            {
+                            <tr>
+                                <td>@client.Id</td>
+                                <td>
+                                    <form method='post' action='/clients/edit'>
+                                        <input type='text' id='name' name='name' value='@client.Name' required/>
+                                        <input type='hidden' id='' name='id' value='@client.Id' required/>
+                                        <button type='submit'>Edit client</button>  
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method='post' action='/clients/delete'>
+                                        <input type='hidden' id='id' name='id' value='@client.Id' required/>
+                                        <button type='submit'>Delete client</button>  
+                                    </form>
+                                </td>
+                                <td>
+                                    <a href="/clients/details/@client.Id">Details</a>
+                                </td>
+                            </tr>
+            }
+                        </tbody>
+                    </table>
+                </div>
+            </body>
+            </html>
