@@ -6,30 +6,45 @@
 
 <h1>Index</h1>
 
+@*Form Tag Helper*@
+@* Generates the HTML <form></form> ```action``` attribute value for a MVC controller *@
+
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a> @* /localhost:port/Controller/asp-action-VERB *@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name) @* If no name can be found in the [Display], the property name itself is used here *@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age) @* What do I use to show description and what not *@
+        </th>
+
+    </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayTextFor(ModelItem => item.Age) @* What's the difference? *@
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+    </tr>
 }
     </tbody>
 </table>
