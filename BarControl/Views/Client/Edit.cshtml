@@ -1,0 +1,32 @@
+
+@* This import requires that a object Client is passed to this view, which is gonna serve as this screen model *@
+@* We are passing the object on the HttpGet route of Add, where we initialize an instance of Client, which is used here *@
+@model BarControl.Model.Client
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<h1>Edit client</h1>
+<div>
+    <form method='post' asp-action="Edit" asp-controller="Client" > @*action='/clients/edit'*@
+        @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        <input type="hidden" name="Id" id="Id" />
+        <label asp-for='Name'>Name: </label>
+        <input type='text' placeholder='Client name here' asp-for="Name"/>
+        <button type='submit'>Edit Client</button>
+    </form>
+</div>
+</body>
+</html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Clients List</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/styles/general.css" asp-append-version="true" />
+</head>
+<body>
+
+
+<div class="container-fluid object-fit-contain mt-3 general-lists bg-dark">
+    <div class="row row-cols-auto mt-2 mb-2">
+        @foreach (Client client in ViewBag.Clients)
+        {
+            <div class="border rounded">
+                <form class="m-1" method="get" action="/clients/edit">
+                    <p class="text-white">@client.Name</p>
+                    <input type="hidden" name="id" value="@client.Id"/>
+                    <button type="submit" class="btn btn-primary">Edit client</button>
+                </form>
+                <form class="m-1" method="post" action="/clients/delete">
+                    <input type="hidden" name="id" value="@client.Id"/>
+                    <button type="submit" class="btn btn-primary">Delete client</button>
+                </form>
+            </div>
+        }
+    </div>
+    <a href="@Url.Action("Add", "Client")" class="btn btn-primary">Add client</a> @**@
+        
+    
+</div>
+
+<script src="lib/bootstrap/js/bootstrap.bundle.js">
+    
+</script>
+<script src="lib/bootstrap/js/bootstrap.js"></script>
+</body>
+</html>

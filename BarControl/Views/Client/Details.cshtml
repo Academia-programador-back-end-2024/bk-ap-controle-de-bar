@@ -40,11 +40,6 @@
             <body>
                 <h2>Clients Management</h2>
                 <div class='container'>
-                    <form method='post' action='/clients'>
-                        <label for='name'>Name: </label>
-                        <input type='text' id='' name='name' value='' required/>
-                        <button type='submit'>Add Client</button>
-                    </form>
                     <table>
                         <thead>
                             <tr>
@@ -52,8 +47,7 @@
                                 <th>Name</th>
                             </tr>
                         </thead>
-                        <tbody>";
-
+                        <tbody>
                         @{
                             Client client = ViewBag.Client;
                             <tr>

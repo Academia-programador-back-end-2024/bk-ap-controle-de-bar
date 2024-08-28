@@ -1,0 +1,59 @@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Change it</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/styles/general.css" asp-append-version="true" />
+</head>
+<body>
+<div id="header" class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">John Wick - Bar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Table")" class="nav-link">Tables</a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Waiter")" class="nav-link">Waiters</a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Client")" class="nav-link">Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("index", "Product")" class="nav-link">Products</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        <p>Controle de bar pipipipopopo</p>
+    </div>
+</footer>
+
+@RenderSection("Scripts", required:false)
+</body>
+</html>
