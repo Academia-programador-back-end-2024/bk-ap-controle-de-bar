@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Index - @typeof(Waiter).Name</h1> @* Figure this out *@ @* BarControl is a DbContext, and Waiter is a DbSet in the DbContext. Waiter = table, DbContext = database*@
 
 @*Form Tag Helper*@
 @* Generates the HTML <form></form> ```action``` attribute value for a MVC controller *@

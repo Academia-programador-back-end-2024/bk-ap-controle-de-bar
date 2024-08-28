@@ -54,7 +54,7 @@ namespace BarControl.Controller
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Waiter waiter)
+        public async Task<IActionResult> Create([Bind("Id,Name, Age")] Waiter waiter)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace BarControl.Controller
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] Waiter waiter)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name, Age")] Waiter waiter)
         {
             if (id != waiter.Id)
             {

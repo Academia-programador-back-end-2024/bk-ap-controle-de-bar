@@ -11,7 +11,7 @@ public class BarControlContext : DbContext
         optionsBuilder.UseInMemoryDatabase("BarControl");
     }
 
-public DbSet<BarControl.Model.Waiter> Waiter { get; set; } = default!;
+public DbSet<BarControl.Model.Waiter> Waiter { get; set; } = default!; // BarControl.Model.Waiter is basically the Waiter Class. The DbSet is basically a list? 
 public DbSet<BarControl.Model.Table> Table { get; set; } = default!;
 
 public DbSet<BarControl.Model.Product> Products { get; set; } = default!;
