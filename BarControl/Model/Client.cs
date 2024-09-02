@@ -5,6 +5,10 @@ using System.ComponentModel.DataAnnotations;
 
 public class Client : BaseModel
 {
+    public Client() : base()
+    {
+        
+    }
     [Required]
     [Display(Description = "Client name")]
     [MinLength(length: 2, ErrorMessage ="Name needs to be at least 2 characters long")]

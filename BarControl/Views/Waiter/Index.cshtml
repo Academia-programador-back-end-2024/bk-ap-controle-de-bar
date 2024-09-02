@@ -4,6 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
+@* typeof operator obtains the System.Type. Here, is provicess acess to metadata of Waiter *@
 <h1>Index - @typeof(Waiter).Name</h1> @* Figure this out *@ @* BarControl is a DbContext, and Waiter is a DbSet in the DbContext. Waiter = table, DbContext = database*@
 
 @*Form Tag Helper*@
@@ -37,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayTextFor(ModelItem => item.Age) @* What's the difference? *@
+            @Html.DisplayTextFor(modelItem => item.Age) @* What's the difference? *@
         </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,14 +1,19 @@
-@model BarControl.Model.BaseModel
+@model BarControl.Model.Table
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
+<h1>@typeof(Table).Name - @Model.Number</h1>
 <div>
-    <h4>BaseModel</h4>
+    <h4>@typeof(Table).Name</h4>
     <hr />
+    <dt>
+        <a asp-action="Edit" asp-route-id="@Model?.Id"></a>
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Number)
+    </dd>
     <dl class="row">
     </dl>
 </div>
@@ -16,3 +21,4 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+

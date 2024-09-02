@@ -14,15 +14,34 @@ namespace BarControl.Controller
     {
         private readonly BarControlContext _context;
 
+        private void Seed()
+        {
+            if (_context.Products.Any() is false)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Product product = new Product();
+                    product.Name = $"Product {i}";
+                    product.Description = $"Product {i} description";
+                    product.PurchasePrice = i + 1;
+                    product.SellingValue = i + 2;
+                    product.Id = i.ToString();
+                    _context.Products.Add(product);
+                }
+            }
+            _context.SaveChanges();
+        }
+        
         public ProductController(BarControlContext context)
         {
             _context = context;
+            Seed();
         }
 
         // GET: Product
         public async Task<IActionResult> Index()
         {
-            return View(await _context.BaseModel.ToListAsync());
+            return View(await _context.Products.ToListAsync());
         }
 
         // GET: Product/Details/5
@@ -33,14 +52,14 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var baseModel = await _context.BaseModel
+            var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (baseModel == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return View(baseModel);
+            return View(product);
         }
 
         // GET: Product/Create
@@ -54,15 +73,15 @@ namespace BarControl.Controller
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] BaseModel baseModel)
+        public async Task<IActionResult> Create([Bind("Id", "Name", "Description", "PurchasePrice", "SellingValue")] Product product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(baseModel);
+                _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(baseModel);
+            return View(product);
         }
 
         // GET: Product/Edit/5
@@ -73,12 +92,12 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var baseModel = await _context.BaseModel.FindAsync(id);
-            if (baseModel == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
-            return View(baseModel);
+            return View(product);
         }
 
         // POST: Product/Edit/5
@@ -86,9 +105,9 @@ namespace BarControl.Controller
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id")] BaseModel baseModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id", "Name", "Description", "PurchasePrice", "SellingValue")] Product product)
         {
-            if (id != baseModel.Id)
+            if (id != product.Id)
             {
                 return NotFound();
             }
@@ -97,12 +116,12 @@ namespace BarControl.Controller
             {
                 try
                 {
-                    _context.Update(baseModel);
+                    _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BaseModelExists(baseModel.Id))
+                    if (!ProductExists(product.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +132,7 @@ namespace BarControl.Controller
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(baseModel);
+            return View(product);
         }
 
         // GET: Product/Delete/5
@@ -124,7 +143,7 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var baseModel = await _context.BaseModel
+            var baseModel = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (baseModel == null)
             {
@@ -139,19 +158,19 @@ namespace BarControl.Controller
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var baseModel = await _context.BaseModel.FindAsync(id);
+            var baseModel = await _context.Products.FindAsync(id);
             if (baseModel != null)
             {
-                _context.BaseModel.Remove(baseModel);
+                _context.Products.Remove(baseModel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BaseModelExists(string id)
+        private bool ProductExists(string id)
         {
-            return _context.BaseModel.Any(e => e.Id == id);
+            return _context.Products.Any(e => e.Id == id);
         }
     }
 }
