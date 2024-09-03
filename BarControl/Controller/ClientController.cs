@@ -2,132 +2,182 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BarControl.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using BarControl.Data;
+using BarControl.Model;
 
 namespace BarControl.Controller
 {
     public class ClientController : Microsoft.AspNetCore.Mvc.Controller
     {
-        public static List<Client> Clients = new List<Client>();
-        private static void Seed()
+        private readonly BarControlContext _context;
+        
+        private void Seed()
         {
-            for (int i = 0; i < 10; i++)
+            if (_context.Product.Any() is false)
             {
-                Client client = new Client
+                for (int i = 0; i < 10; i++)
                 {
-                    Name = "Client" + i.ToString()
-                };
-                Clients.Add(client);
+                    Client client = new Client();
+                    client.Name = $"Client {i}";
+                    client.Id = i.ToString();
+                    _context.Client.Add(client);
+                }
             }
+            _context.SaveChanges();
         }
-
-        public ClientController()
+        
+        public ClientController(BarControlContext context)
         {
-            if (Clients.Count == 0)
+            _context = context;
+        }
+        
+        // Get: Client
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Client.ToListAsync());
+        }
+        
+        // Get (ById, Details)
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
             {
-                Seed();
+                return NotFound();
             }
+
+            var client = await _context.Client
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return View(client);
         }
 
-        // GetAll
-        public ActionResult Index()
+        // Creation get
+        public IActionResult Create()
         {
-            ViewBag.clients = Clients;
             return View();
         }
-        // GetAll
+        // Creation post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id, Name")] Client client)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(client);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(client);
+        }
+        
+        
+        // Edit get
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var client = await _context.Client.FindAsync(id);
+            if (client == null)
+            {
+                return NotFound();
+
+            }
+            return View(client);
+        }
+        // Edit post
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, [Bind("Id, Name")] Client client)
+        {
+            if (id != client.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(client); // Generally, no database interaction will be performed until SaveChanges() is called, written on documentation
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ClientExists(client.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(client);
+        }
     
-        // GetById
-        public ActionResult Details(string id = "0")
+        // Deletion get
+        public async Task<IActionResult> Delete(string id)
         {
-            Client client = Clients.Where(c => c.Id == id).FirstOrDefault();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var client = await _context.Client
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return View(client);
+        }
+        
+        // Deletion post
+        [HttpPost, ActionName("Delete")] // noice
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var client = await _context.Client.FindAsync(id);
             if (client != null)
             {
-                ViewBag.Client = client;
-                return View();
+                _context.Client.Remove(client);
             }
-            return RedirectToAction("Index");
-        }
-        // GetById
 
-        // Adding routes 
-        [HttpGet]
-        public ActionResult Add()
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool ClientExists(string id)
         {
-            return View(new Client());
+            return _context.Client.Any(e => e.Id == id); // Does e stand for Entity?
         }
-
-        [HttpPost]
-        public ActionResult Add(Client client)
-        {
-            Clients.Add(client);
-            return RedirectToAction("Index");
-        }
-        // Adding routes 
-        
-        // Editing routes
-        [HttpGet] 
-        public ActionResult Edit(string id)
-        {
-            Client client = Clients.Where(c => c.Id == id).FirstOrDefault();
-            if (client != null)
-            {
-                return View(client);
-            }
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult Edit(Client client)
-        {
-            if (ModelState.IsValid == false)
-            {
-                return View(client);
-            }
-            var existingClient = Clients.Where(c => c.Id == client.Id).FirstOrDefault();
-            if (existingClient != null)
-            {
-                var index = Clients.IndexOf(existingClient);
-                Clients[index] = client;
-            }
-            return RedirectToAction("Index");
-        }
-        // Editing routes
-
-
-        [HttpPost]
-        public ActionResult Delete(string id)
-        {
-            Client client = Clients.FirstOrDefault(c => c.Id == id);
-            Clients.Remove(client);
-            return RedirectToAction("Index");
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-       
-
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

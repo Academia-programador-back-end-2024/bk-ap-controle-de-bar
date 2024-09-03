@@ -22,7 +22,7 @@ namespace BarControl.Controller
         // GET: Slip
         public async Task<IActionResult> Index()
         {
-            var barControlContext = _context.Slips
+            var barControlContext = _context.Slip
                 .Include(s => s.Client)
                 .Include(s => s.Table)
                 .Include(s => s.Waiter);
@@ -37,12 +37,12 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var slip = await _context.Slips
+            var slip = await _context.Slip
                 .Include(s => s.Client)
                 .Include(s => s.Table)
                 .Include(s => s.Waiter)
-                .Include(slip => slip.Consumptions)
-                
+                .Include(s => s.Consumptions)
+                    .ThenInclude(consumption => consumption.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (slip == null)
             {
@@ -55,7 +55,7 @@ namespace BarControl.Controller
         // GET: Slip/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.clients, "Id", "Id");
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Id");
             ViewData["TableId"] = new SelectList(_context.Table, "Id", "Id");
             ViewData["WaiterId"] = new SelectList(_context.Waiter, "Id", "Id");
             return View();
@@ -66,7 +66,7 @@ namespace BarControl.Controller
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientId,TableId,WaiterId,OpeningDate,ClosingDate,Paid,Id")] Slip slip)
+        public async Task<IActionResult> Create([Bind("ClientId,TableId,WaiterId,OpeningDate")] Slip slip)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace BarControl.Controller
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.clients, "Id", "Id", slip.ClientId);
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Id", slip.ClientId);
             ViewData["TableId"] = new SelectList(_context.Table, "Id", "Id", slip.TableId);
             ViewData["WaiterId"] = new SelectList(_context.Waiter, "Id", "Id", slip.WaiterId);
             return View(slip);
@@ -88,12 +88,12 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var slip = await _context.Slips.FindAsync(id);
+            var slip = await _context.Slip.FindAsync(id);
             if (slip == null)
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.clients, "Id", "Id", slip.ClientId);
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Id", slip.ClientId);
             ViewData["TableId"] = new SelectList(_context.Table, "Id", "Id", slip.TableId);
             ViewData["WaiterId"] = new SelectList(_context.Waiter, "Id", "Id", slip.WaiterId);
             return View(slip);
@@ -131,7 +131,7 @@ namespace BarControl.Controller
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.clients, "Id", "Id", slip.ClientId);
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Id", slip.ClientId);
             ViewData["TableId"] = new SelectList(_context.Table, "Id", "Id", slip.TableId);
             ViewData["WaiterId"] = new SelectList(_context.Waiter, "Id", "Id", slip.WaiterId);
             return View(slip);
@@ -145,7 +145,7 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var slip = await _context.Slips
+            var slip = await _context.Slip
                 .Include(s => s.Client)
                 .Include(s => s.Table)
                 .Include(s => s.Waiter)
@@ -163,10 +163,10 @@ namespace BarControl.Controller
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var slip = await _context.Slips.FindAsync(id);
+            var slip = await _context.Slip.FindAsync(id);
             if (slip != null)
             {
-                _context.Slips.Remove(slip);
+                _context.Slip.Remove(slip);
             }
 
             await _context.SaveChangesAsync();
@@ -175,7 +175,7 @@ namespace BarControl.Controller
 
         private bool SlipExists(string id)
         {
-            return _context.Slips.Any(e => e.Id == id);
+            return _context.Slip.Any(e => e.Id == id);
         }
     }
 }

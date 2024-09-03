@@ -16,7 +16,7 @@ namespace BarControl.Controller
 
         private void Seed()
         {
-            if (_context.Products.Any() is false)
+            if (_context.Product.Any() is false)
             {
                 for (int i = 0; i < 10; i++)
                 {
@@ -26,7 +26,7 @@ namespace BarControl.Controller
                     product.PurchasePrice = i + 1;
                     product.SellingValue = i + 2;
                     product.Id = i.ToString();
-                    _context.Products.Add(product);
+                    _context.Product.Add(product);
                 }
             }
             _context.SaveChanges();
@@ -41,7 +41,7 @@ namespace BarControl.Controller
         // GET: Product
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.Product.ToListAsync());
         }
 
         // GET: Product/Details/5
@@ -52,7 +52,7 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var product = await _context.Product
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -92,7 +92,7 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -143,7 +143,7 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
-            var baseModel = await _context.Products
+            var baseModel = await _context.Product
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (baseModel == null)
             {
@@ -158,10 +158,10 @@ namespace BarControl.Controller
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var baseModel = await _context.Products.FindAsync(id);
+            var baseModel = await _context.Product.FindAsync(id);
             if (baseModel != null)
             {
-                _context.Products.Remove(baseModel);
+                _context.Product.Remove(baseModel);
             }
 
             await _context.SaveChangesAsync();
@@ -170,7 +170,7 @@ namespace BarControl.Controller
 
         private bool ProductExists(string id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Product.Any(e => e.Id == id);
         }
     }
 }
