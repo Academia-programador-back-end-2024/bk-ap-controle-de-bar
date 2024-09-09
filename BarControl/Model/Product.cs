@@ -23,5 +23,4 @@ public class Product : BaseModel
     [Required]
     [Display(Name = "Selling value")]
     public double SellingValue { get; set; }
-    
 }

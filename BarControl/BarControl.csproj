@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="bootstrap@5.1.3\" />
-    <Folder Include="Views\Consumption\" />
   </ItemGroup>
 
   <ItemGroup>

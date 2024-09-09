@@ -32,9 +32,9 @@ namespace BarControl.Controller
         // GET: Slip/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null) 
+            if (id == null)
             {
-                return NotFound();
+                return View("Index");
             }
 
             var slip = await _context.Slip
@@ -49,6 +49,7 @@ namespace BarControl.Controller
                 return NotFound();
             }
 
+            ViewBag.Products = _context.Product.ToList();
             return View(slip);
         }
 
@@ -178,6 +179,15 @@ namespace BarControl.Controller
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult CreateConsumption(Consumption consumption, string slipId)
+        {
+            _context.Consumption.Add(consumption);
+            _context.SaveChanges();
+            
+            return RedirectToAction("Details", new{id = consumption.SlipId});
         }
 
         private bool SlipExists(string id)

@@ -6,7 +6,6 @@
 }
 
 <h1>Details</h1>
-
 <div>
     <h4>Slip</h4>
     <hr />
@@ -48,32 +47,14 @@
             @Html.DisplayFor(model => model.Paid)
         </dd>
     </dl>
-    
 </div>
 
-<h3>Consumptions</h3>
-<table class="tabl table-stripped mb-3">
-    <thead>
-    <tr>
-        <th>Product</th>
-        <th>Amount</th>
-        <th>Unit price</th>
-        <th>Total price</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var consumption in Model.Consumptions)
-    {
-        <tr>
-            Edition and deletion
-            <td>@consumption.Product.Name</td>
-            <td>@consumption.Amount</td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="row">
+    <h3>Consumptions</h3>
+</div>
 
+<partial name="~/Views/Consumption/Create.cshtml" model="new Consumption(){SlipId = Model.Id}" />
+<partial name="~/Views/Consumption/List.cshtml" model="Model.Consumptions"/>
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
