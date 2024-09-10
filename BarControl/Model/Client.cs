@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Routing.Constraints;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BarControl.Model;
-using System.ComponentModel.DataAnnotations;
 
 public class Client : BaseModel
 {

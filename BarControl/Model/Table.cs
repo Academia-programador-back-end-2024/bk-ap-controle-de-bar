@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Table : BaseModel
 {
-    public Table() : base()
+    public Table()
     {
         
     }

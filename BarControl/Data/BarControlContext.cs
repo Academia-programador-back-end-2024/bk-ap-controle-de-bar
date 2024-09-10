@@ -4,7 +4,6 @@ namespace BarControl.Data;
 
 public class BarControlContext : DbContext
 {
-
     public DbSet<BarControl.Model.Waiter> Waiter { get; set; } = default!; // BarControl.Model.Waiter is basically the Waiter Class. The DbSet is basically a list? 
     public DbSet<BarControl.Model.Client> Client { get; set; } = default!;
     public DbSet<BarControl.Model.Table> Table { get; set; } = default!;
@@ -15,16 +14,64 @@ public class BarControlContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseInMemoryDatabase("BarControl");
+        // optionsBuilder.UseInMemoryDatabase("BarControl");
+     
+        // ConnectionString
+        optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=BarControl;User Id=sa;Password=SimplePass123;TrustServerCertificate=True");
+        // Logging on the console
+        optionsBuilder.LogTo(Console.WriteLine); 
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Ignore<BaseModel>();
 
+        // Configure inheritance with TPH
+        modelBuilder.Entity<Client>().ToTable("Client");
+        modelBuilder.Entity<Consumption>().ToTable("Consumption");
+        modelBuilder.Entity<Product>().ToTable("Product");
+        modelBuilder.Entity<Slip>().ToTable("Slip");
+        modelBuilder.Entity<Table>().ToTable("Table");
+        modelBuilder.Entity<Waiter>().ToTable("Waiter");
+
+        modelBuilder.Entity<Consumption>()
+            .HasOne(c => c.Product)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Consumption>()
+            .HasOne(c => c.Slip)
+            .WithMany(s => s.Consumptions)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Slip>()
+            .HasOne(s => s.Client)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Slip>()
+            .HasOne(s => s.Table)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Slip>()
+            .HasOne(s => s.Waiter)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        base.OnModelCreating(modelBuilder);
+    }
+    
     public void Seed()
     {
-        WaiterSeed();
-        ClientSeed();
-        TableSeed();
-        ProductSeed();
-        SlipSeed();
+        if (Database.EnsureCreated())
+        {
+            WaiterSeed();
+            ClientSeed();
+            TableSeed();
+            ProductSeed();
+            SlipSeed();
+        }
     }
     
     private void ClientSeed()
@@ -97,7 +144,6 @@ public class BarControlContext : DbContext
         }
     }
 
-  
         private void SlipSeed()
         {
             // Ensure Clients, Tables, and Waiters are already seeded
@@ -153,12 +199,6 @@ public class BarControlContext : DbContext
         }
 
     }
-
-
-
-
-
-
 
 
 

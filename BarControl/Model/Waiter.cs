@@ -1,14 +1,10 @@
-using Microsoft.AspNetCore.Routing.Constraints;
-
-namespace BarControl.Model;
 using System.ComponentModel.DataAnnotations;
+namespace BarControl.Model;
 
 public class Waiter : BaseModel
 {
     public Waiter() : base()
     {
-        Id = Guid.NewGuid().ToString();
-        Age = 18;
     }
     
     [Required]
