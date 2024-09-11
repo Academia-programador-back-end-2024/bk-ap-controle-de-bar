@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BarControl.Model;
 
@@ -29,4 +30,23 @@ public class Slip : BaseModel
     public DateTime? ClosingDate { get; set; }
     
     public bool Paid { get; set; } // Defaults to false
+    
+    public double TotalSellingValue()
+    {
+        double value = 0;
+        Consumptions.ForEach(consumption => value += consumption.Amount * consumption.Product.SellingValue);
+        
+        return value;
+    }
+
+    public double TotalPurchaseValue()
+    {
+        double value = 0;
+        Consumptions.ForEach(consumption =>
+        {
+            value += consumption.Amount * consumption.Product.PurchasePrice;
+        });
+
+        return value;
+    }
 }
