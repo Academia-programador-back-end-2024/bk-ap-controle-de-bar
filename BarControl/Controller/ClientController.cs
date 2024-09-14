@@ -10,7 +10,7 @@ using BarControl.Model;
 
 namespace BarControl.Controller
 {
-    public class ClientController : Microsoft.AspNetCore.Mvc.Controller
+    public class ClientController : BaseController
     {
         private readonly BarControlContext _context;
         
@@ -28,8 +28,8 @@ namespace BarControl.Controller
             }
             _context.SaveChanges();
         }
-        
-        public ClientController(BarControlContext context)
+
+        public ClientController(BarControlContext context) : base(context)
         {
             _context = context;
         }
@@ -136,13 +136,12 @@ namespace BarControl.Controller
 
             var client = await _context.Client
                 .FirstOrDefaultAsync(m => m.Id == id);
-            string errorMessage = IsRelatedToSlip(client);
-            ViewBag.RelatedSlipMessage = errorMessage;
+            ViewBag.RelatedSlipMessage = IsRelatedToSlip(client);
             if (client == null)
             {
                 return NotFound();
             }
-            
+    
             return View(client);
         }
         
@@ -165,17 +164,16 @@ namespace BarControl.Controller
             return _context.Client.Any(e => e.Id == id); // Does e stand for Entity?
         }
 
-        private string IsRelatedToSlip(Client client) // I want to create a method at BaseModel to do this.
+        private bool IsRelated(Client client) // I want to create a method at BaseModel to do this.
         {
-            string errorMessage = string.Empty;
             foreach (Slip slip in _context.Slip)
             {
                 if (slip.Client == client) // This way no linq is necessary
                 {
-                    errorMessage = $"{client} is related to a slip, he/she cannot be deleted";
+                    return true;
                 }
             }
-            return errorMessage;
+            return false;
         }
         
     }
