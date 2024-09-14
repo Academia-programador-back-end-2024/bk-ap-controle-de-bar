@@ -34,19 +34,33 @@ public class Slip : BaseModel
     public double TotalSellingValue()
     {
         double value = 0;
-        Consumptions.ForEach(consumption => value += consumption.Amount * consumption.Product.SellingValue);
-        
+        Consumptions?.ForEach(consumption => value += consumption.Amount * consumption.Product.SellingValue);
         return value;
     }
-
     public double TotalPurchaseValue()
     {
         double value = 0;
-        Consumptions.ForEach(consumption =>
+        Consumptions?.ForEach(consumption =>
         {
             value += consumption.Amount * consumption.Product.PurchasePrice;
         });
-
         return value;
     }
+}
+
+
+// ViewModel
+public class SlipFilter
+{
+    public SlipFilter()
+    {
+        InitialDate = DateTime.Now.AddDays((-1));
+        FinalDate = DateTime.Now;
+        SearchTerm = string.Empty;
+        Paid = false;
+    }
+    public DateTime? InitialDate { get; set; }
+    public DateTime? FinalDate { get; set; }
+    public string? SearchTerm { get; set; }
+    public bool? Paid { get; set; } // Set to false if no setting
 }

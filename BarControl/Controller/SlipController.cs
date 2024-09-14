@@ -20,13 +20,34 @@ namespace BarControl.Controller
         }
 
         // GET: Slip
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SlipFilter filter = null)
         {
-            var barControlContext = _context.Slip
+            if (filter == null)
+            {
+                filter = new SlipFilter();
+            }
+
+            ViewBag.Filtro = filter;
+            
+            var slipQuery = _context.Slip
                 .Include(s => s.Client) // Includes another DbSet
                 .Include(s => s.Table) // Includes another DbSet
-                .Include(s => s.Waiter); // Includes another DbSet
-            return View(await barControlContext.ToListAsync());
+                .Include(s => s.Waiter) // Includes another DbSet
+                .Include(s => s.Consumptions)
+                .ThenInclude(s => s.Product)
+                .AsQueryable();
+
+            if (filter.SearchTerm != string.Empty)
+            {
+                slipQuery =
+                    slipQuery.Where(slip =>
+                        slip.Client.Name.Contains(filter.SearchTerm) || // Client
+                        slip.Waiter.Name.Contains(filter.SearchTerm) || // Waiter
+                        slip.Table.Number.ToString() == (filter.SearchTerm) // Table // Equals does not work with sql transpilation
+                        );
+            }
+            
+            return View(await slipQuery.ToListAsync());
         } 
 
         // GET: Slip/Details/5

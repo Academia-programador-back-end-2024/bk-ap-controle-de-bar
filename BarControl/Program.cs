@@ -12,7 +12,7 @@ namespace BarControl
             builder.Services.AddControllersWithViews(); // Allows Controllers and Views to be used
             builder.Services.AddDbContext<BarControlContext>();
             
-            // DB
+            // DB 
             BarControlContext context = new BarControlContext();
             
             context.Seed();

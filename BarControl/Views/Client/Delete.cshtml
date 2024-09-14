@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model BarControl.Model.Client
 
 @{
@@ -19,10 +20,28 @@ ViewData["Title"] = "Delete";
         </dd>
     </dl>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    @*In case the client cannot be deleted*@ 
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.RelatedSlipMessage))
+        {
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id"/>
+                <input type="submit" value="Delete" class="btn btn-danger disabled"/> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+            <div class="alert alert-danger">
+                @ViewBag.RelatedSlipMessage
+            </div>
+        }
+        else
+        {
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id"/>
+                <input type="submit" value="Delete" class="btn btn-danger"/> |
+                <a asp-action="Index">Back to List</a>
+            </form>           
+        }
+    }
+    
 </div>
 

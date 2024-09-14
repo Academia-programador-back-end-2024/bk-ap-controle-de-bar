@@ -17,7 +17,7 @@ public class BarControlContext : DbContext
         // optionsBuilder.UseInMemoryDatabase("BarControl");
      
         // ConnectionString
-        optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=BarControl;User Id=sa;Password=SimplePass123;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=BarControl;User Id=sa;Password=EasyPass123;TrustServerCertificate=True");
         // Logging on the console
         optionsBuilder.LogTo(Console.WriteLine); 
     }
@@ -134,8 +134,8 @@ public class BarControlContext : DbContext
                 {
                     Name = "Product " + i,
                     Description = "Description for product " + i,
-                    PurchasePrice = 10.0 + i,
-                    SellingValue = 20.0 + i
+                    PurchasePrice = 1 + i,
+                    SellingValue = 2 + i
                 };
                 Product.Add(product);
                 SaveChanges();

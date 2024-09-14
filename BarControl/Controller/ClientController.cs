@@ -136,11 +136,13 @@ namespace BarControl.Controller
 
             var client = await _context.Client
                 .FirstOrDefaultAsync(m => m.Id == id);
+            string errorMessage = IsRelatedToSlip(client);
+            ViewBag.RelatedSlipMessage = errorMessage;
             if (client == null)
             {
                 return NotFound();
             }
-
+            
             return View(client);
         }
         
@@ -151,7 +153,7 @@ namespace BarControl.Controller
             var client = await _context.Client.FindAsync(id);
             if (client != null)
             {
-                _context.Client.Remove(client);
+                _context.Client.Remove(client); 
             }
 
             await _context.SaveChangesAsync();
@@ -162,9 +164,24 @@ namespace BarControl.Controller
         {
             return _context.Client.Any(e => e.Id == id); // Does e stand for Entity?
         }
+
+        private string IsRelatedToSlip(Client client) // I want to create a method at BaseModel to do this.
+        {
+            string errorMessage = string.Empty;
+            foreach (Slip slip in _context.Slip)
+            {
+                if (slip.Client == client) // This way no linq is necessary
+                {
+                    errorMessage = $"{client} is related to a slip, he/she cannot be deleted";
+                }
+            }
+            return errorMessage;
+        }
+        
     }
 }
 
+// Don't use exceptions to change the flow of a program as part of ordinary execution. Use exceptions to report and handle error conditions.
 
 
 
