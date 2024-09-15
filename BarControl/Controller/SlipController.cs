@@ -211,6 +211,17 @@ namespace BarControl.Controller
             return RedirectToAction("Details", new{id = consumption.SlipId});
         }
 
+        [HttpPost]
+        public IActionResult DeleteConsumption(string id)
+        {
+            Consumption? toRemove = _context.Consumption.FirstOrDefault(c => c.Id == id);
+            var slipId = toRemove.SlipId;
+            _context.Consumption.Remove(toRemove);
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = slipId });
+        }
+
         private bool SlipExists(string id)
         {
             return _context.Slip.Any(e => e.Id == id);

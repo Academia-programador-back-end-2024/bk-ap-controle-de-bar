@@ -13,10 +13,25 @@
     <hr />
     <dl class="row">
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+
+    @*In case the table cannot be deleted*@
+    @if (!string.IsNullOrEmpty(ViewBag.RelatedSlipMessage))
+    {
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id"/>
+            <input type="submit" value="Delete" class="btn btn-danger disabled"/> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+        <div class="alert alert-danger">
+            @ViewBag.RelatedSlipMessage
+        </div>
+    }
+    else
+    {
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id"/>
+            <input type="submit" value="Delete" class="btn btn-danger"/> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    }
 </div>

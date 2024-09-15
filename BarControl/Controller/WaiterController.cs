@@ -10,11 +10,11 @@ using BarControl.Model;
 
 namespace BarControl.Controller
 {
-    public class WaiterController : Microsoft.AspNetCore.Mvc.Controller
+    public class WaiterController : BaseController
     {
         private readonly BarControlContext _context;
 
-        public WaiterController(BarControlContext context)
+        public WaiterController(BarControlContext context) : base(context)
         {
             _context = context;
         }
@@ -126,6 +126,8 @@ namespace BarControl.Controller
 
             var waiter = await _context.Waiter
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.RelatedSlipMessage = IsRelatedToSlip(waiter);
+
             if (waiter == null)
             {
                 return NotFound();

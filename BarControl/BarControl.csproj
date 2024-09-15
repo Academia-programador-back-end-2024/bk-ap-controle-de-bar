@@ -15,6 +15,7 @@
   <ItemGroup>
     <None Include="wwwroot\lib\styles\general.css" />
     <None Remove="Views\Client\indexreserva" />
+    <None Remove="Views\Clients\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -155,6 +156,7 @@
     <Content Include="lib\bootstrap\scss\_variables-dark.scss" />
     <Content Include="lib\bootstrap\scss\_variables.scss" />
     <Content Remove="Views\Consumption\Consumption.cshtml" />
+    <Content Remove="Views\Clients\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -167,6 +169,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Clients\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\Clients\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Clients\Index.cshtml" />
   </ItemGroup>
 
 </Project>

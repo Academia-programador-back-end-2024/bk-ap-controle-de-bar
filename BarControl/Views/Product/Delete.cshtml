@@ -1,5 +1,5 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BarControl.Model.BaseModel
+@model BarControl.Model.Product
 
 @{
     ViewData["Title"] = "Delete";
@@ -9,7 +9,7 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>BaseModel</h4>
+    <h4>@Model.Name</h4>
     <hr />
     <dl class="row">
     </dl>
@@ -20,3 +20,13 @@
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
+
+
+
+
+
+
+
+
+
+

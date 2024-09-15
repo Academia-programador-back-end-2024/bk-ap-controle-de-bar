@@ -14,21 +14,6 @@ namespace BarControl.Controller
     {
         private readonly BarControlContext _context;
         
-        private void Seed()
-        {
-            if (_context.Product.Any() is false)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    Client client = new Client();
-                    client.Name = $"Client {i}";
-                    client.Id = i.ToString();
-                    _context.Client.Add(client);
-                }
-            }
-            _context.SaveChanges();
-        }
-
         public ClientController(BarControlContext context) : base(context)
         {
             _context = context;
@@ -105,7 +90,7 @@ namespace BarControl.Controller
 
             if (ModelState.IsValid)
             {
-                try
+                try 
                 {
                     _context.Update(client); // Generally, no database interaction will be performed until SaveChanges() is called, written on documentation
                     await _context.SaveChangesAsync();

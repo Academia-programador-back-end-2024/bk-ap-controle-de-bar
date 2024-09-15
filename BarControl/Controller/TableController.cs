@@ -5,11 +5,11 @@ using BarControl.Model;
 
 namespace BarControl.Controller
 {
-    public class TableController : Microsoft.AspNetCore.Mvc.Controller
+    public class TableController : BaseController
     {
         private readonly BarControlContext _context;
 
-        public TableController(BarControlContext context)
+        public TableController(BarControlContext context) : base(context)
         {
             _context = context;
         }
@@ -121,6 +121,7 @@ namespace BarControl.Controller
 
             var table = await _context.Table
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.RelatedSlipMessage = IsRelatedToSlip(table);
             if (table == null)
             {
                 return NotFound();

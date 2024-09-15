@@ -23,6 +23,23 @@ public class BaseController : Microsoft.AspNetCore.Mvc.Controller
                 if (slip.Client == model)
                 {
                     errorMessage = $"{model} is related to a slip and cannot be deleted!";
+                    Slip relatedSlip = slip;
+                }
+            }
+            if (modelType == typeof(Waiter))
+            {
+                if (slip.Waiter == model)
+                {
+                    errorMessage = $"{model} is related to a slip and cannot be deleted!";
+                    Slip relatedSlip = slip;
+                }
+            }
+            if (modelType == typeof(Table))
+            {
+                if (slip.Table == model)
+                {
+                    errorMessage = $"{model} is related to a slip and cannot be deleted!";
+                    Slip relatedSlip = slip;
                 }
             }
         }
