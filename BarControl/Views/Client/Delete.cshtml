@@ -30,7 +30,7 @@ ViewData["Title"] = "Delete";
                 <a asp-action="Index">Back to List</a>
             </form>
             <div class="alert alert-danger">
-                @ViewBag.RelatedSlipMessage
+                @ViewBag.RelatedSlipMessage.ToString("C")
             </div>
         }
         else

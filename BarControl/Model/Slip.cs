@@ -40,12 +40,14 @@ public class Slip : BaseModel
     public double TotalPurchaseValue()
     {
         double value = 0;
-        Consumptions?.ForEach(consumption =>
+        foreach (Consumption consumption in Consumptions)
         {
             value += consumption.Amount * consumption.Product.PurchasePrice;
-        });
+        }
         return value;
     }
+
+   
 }
 
 

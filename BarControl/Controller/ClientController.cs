@@ -39,6 +39,7 @@ namespace BarControl.Controller
             {
                 return NotFound();
             }
+            ViewBag.Cost = DetermineClientExpense(client);
 
             return View(client);
         }
@@ -122,6 +123,7 @@ namespace BarControl.Controller
             var client = await _context.Client
                 .FirstOrDefaultAsync(m => m.Id == id);
             ViewBag.RelatedSlipMessage = IsRelatedToSlip(client);
+
             if (client == null)
             {
                 return NotFound();
@@ -149,17 +151,24 @@ namespace BarControl.Controller
             return _context.Client.Any(e => e.Id == id); // Does e stand for Entity?
         }
 
-        private bool IsRelated(Client client) // I want to create a method at BaseModel to do this.
+        public double DetermineClientExpense(Client client)
         {
-            foreach (Slip slip in _context.Slip)
+            
+            double clientExpense = 0;
+            var slips = _context.Slip // Without this *eagerly loading*, the consumptions were not being fetched
+                .Include(s => s.Consumptions) // Eagerly loaded related Consumptions collection for each Slip
+                .ThenInclude(c => c.Product) // For each Consumption, also load its related Product Entity (using ProductId foreign key)
+                .Where(s => s.ClientId == client.Id && s.Paid)// SQL filter to only gather slips related to the specific client passed as argument
+                .ToList();
+
+            foreach (var slip in slips)
             {
-                if (slip.Client == client) // This way no linq is necessary
-                {
-                    return true;
-                }
+                clientExpense += slip.TotalSellingValue();
             }
-            return false;
+            return clientExpense;
         }
+
+       
         
     }
 }

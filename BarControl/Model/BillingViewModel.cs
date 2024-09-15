@@ -12,6 +12,7 @@ public class BillingViewModel
 
     public double TotalProfit { get; set; }
     
+    public double DailyBilled { get; set; }
     
     
 }

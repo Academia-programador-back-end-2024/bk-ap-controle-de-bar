@@ -31,11 +31,12 @@ namespace BarControl.Controllers
             BillingViewModel viewModel = new BillingViewModel();
 
             viewModel.Slips = slipQuery.ToList();
-            viewModel.BillTotal = viewModel.Slips.Where(slip => slip.Paid != null && slip.Paid == true).Sum(s => s.TotalSellingValue());
+            viewModel.BillTotal = viewModel.Slips.Where(slip => slip.Paid).Sum(s => s.TotalSellingValue());
             viewModel.PendentTotal = viewModel.Slips.Where(slip => slip.Paid == false).Sum(s => s.TotalSellingValue());
-            viewModel.TotalCostSlips = viewModel.Slips.Sum(s => s.TotalSellingValue());
-            viewModel.TotalProfit = viewModel.Slips.Sum(s => s.TotalSellingValue());
-            
+            viewModel.TotalCostSlips = viewModel.Slips.Sum(s => s.TotalPurchaseValue());
+            viewModel.TotalProfit = viewModel.Slips.Sum(s => s.TotalSellingValue()) - viewModel.Slips.Sum(s => s.TotalPurchaseValue());
+            viewModel.DailyBilled = viewModel.Slips.Where(slip => slip.OpeningDate.Day == DateTime.Today.Day)
+                .Sum(s => s.TotalSellingValue());
             return View(viewModel);
         }
     }

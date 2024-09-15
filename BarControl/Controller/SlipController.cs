@@ -195,6 +195,13 @@ namespace BarControl.Controller
             var slip = await _context.Slip.FindAsync(id);
             if (slip != null)
             {
+                foreach (Consumption consumption in _context.Consumption) // What's the correct sql way of dealing with this?
+                {
+                    if (consumption.SlipId == slip.Id)
+                    {
+                        _context.Consumption.Remove(consumption);
+                    }
+                }
                 _context.Slip.Remove(slip);
             }
 
@@ -215,7 +222,7 @@ namespace BarControl.Controller
         public IActionResult DeleteConsumption(string id)
         {
             Consumption? toRemove = _context.Consumption.FirstOrDefault(c => c.Id == id);
-            var slipId = toRemove.SlipId;
+            var slipId = toRemove?.SlipId;
             _context.Consumption.Remove(toRemove);
             _context.SaveChanges();
 

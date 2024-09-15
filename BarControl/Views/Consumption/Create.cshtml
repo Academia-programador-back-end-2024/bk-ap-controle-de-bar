@@ -2,10 +2,10 @@
 @model BarControl.Model.Consumption
 
 <!-- Button to trigger modal -->
+
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Add consumption
 </button>
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -23,14 +23,14 @@
                         <span asp-validation-for="Amount" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="ProductId" class="control-label">Escolha o produto </label>
+                        <label for="ProductId" class="control-label">Choose the product </label>
                         <select name="ProductId" class="form-control">
                             @if (ViewBag.Products != null)
                             {
-                            foreach (var product in ViewBag.Products)
-                            {
-                            <option value="@product.Id">@product.Name</option>
-                            }
+                                foreach (Product product in ViewBag.Products)
+                                {
+                                <option value="@product.Id">@product.Name</option>
+                                }
                             }
                         </select>
                         <span asp-validation-for="ProductId" class="text-danger"></span>

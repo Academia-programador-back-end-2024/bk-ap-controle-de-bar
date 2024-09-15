@@ -6,7 +6,6 @@ public class Consumption : BaseModel
     {
 
     }
-    
     public int Amount { get; set; }
     public string ProductId { get; set; }
     // We have a DbSet for this model, for this entity so we can relate the two
