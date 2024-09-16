@@ -1,0 +1,14 @@
+@model BarControl.Model.BillingViewModel;
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="card-body">
+    <h4>Summary</h4>
+    <p>Total billed: <strong>@Model.BillTotal</strong></p>
+    <p>Total pendent: <strong>@Model.PendentTotal</strong></p>
+    <p>Total cost from the slips: <strong>@Model.TotalCostSlips</strong></p>
+    <p>Total profit from the slips: <strong>@Model.TotalProfit</strong></p>
+    <p>Total billed today: <strong>@Model.DailyBilled</strong></p>
+</div>

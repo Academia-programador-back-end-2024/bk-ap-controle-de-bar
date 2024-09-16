@@ -1,0 +1,12 @@
+.general-lists {
+    display: flex;
+    gap: 100px;
+}
+.get-form{
+    max-width: 20%;
+    text-align: center;
+}
+.get-form p{
+    max-height: 50px;
+    overflow: hidden;
+}

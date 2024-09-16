@@ -1,0 +1,55 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BarControl.Model.Slip
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Slip</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ClientId" class="control-label">Client Name</label>
+                <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TableId" class="control-label">Table number</label>
+                <select asp-for="TableId" class ="form-control" asp-items="ViewBag.TableId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="WaiterId" class="control-label">Waiter name</label>
+                <select asp-for="WaiterId" class ="form-control" asp-items="ViewBag.WaiterId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpeningDate" class="control-label"></label>
+                <input asp-for="OpeningDate"  value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" class="form-control" />
+                <span asp-validation-for="OpeningDate" class="text-danger"></span>
+            </div>
+            
+            @* <div class="form-group form-check"> *@
+            @*     <label class="form-check-label"> *@
+            @*         <input class="form-check-input" asp-for="Paid" /> @Html.DisplayNameFor(model => model.Paid) *@
+            @*     </label> *@
+            @* </div> *@
+       
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
